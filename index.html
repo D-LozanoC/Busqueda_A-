@@ -3,8 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Busqueda A*</title>
+    <title>Búsqueda A*</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://d3js.org/d3.v7.min.js"></script>
 </head>
 <body>
+    <h1>Algoritmo de búsqueda A* </h1>
+    <div class="container">
+        <div class="form">
+            <form>
+                <label for="inputNodos">Nro. nodos: </label><br>
+                <input type="number" id="inputNodos" name="inputNodos" required min="2"><br><br>
+                <span id="span"></span>
+                <button type="submit">Cargar</button>
+            </form>
+        </div>
+        <div class="canva">
+            <svg id="graph"></svg>
+            <svg></svg>
+            <svg></svg>
+        </div>
+    </div>
+    <script type="module" src="script.js"></script>
 </body>
 </html>

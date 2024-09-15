@@ -1,0 +1,91 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100..700;1,100..700&display=swap');
+
+body {
+  padding: 0;
+  margin: 0;
+  background-color: #7a7878;
+  font-family: "Josefin Sans", sans-serif;
+}
+
+.container {
+  background-color: #333;
+  border-radius: 1rem;
+  display: flex;
+  margin: 2rem;
+  box-shadow: 5px 5px 5px 5px rgba(255, 255, 255, 0.5);
+}
+
+h1 {
+  color: #e4e4e4;;
+  text-align: center;
+  margin: 1rem;
+}
+
+.form {
+  flex:1;
+  margin: 1.5rem;
+  color: #e4e4e4;
+}
+
+input,label{
+  font-size: 1.1rem;
+  padding: 0.5rem;
+  margin: 0.4rem;
+  width: 100%;
+}
+
+.canva {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  flex: 2;
+  height: 80vh;
+  margin: 1.5rem;
+  background-color: #e4e4e4;
+  border-radius: 1rem;
+}
+
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.link {
+  fill: none;
+  stroke: #999;
+  stroke-opacity: 0.6;
+}
+
+#weight{
+  height: 0.8rem;
+  width: 2rem;
+}
+
+button{
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  width: 100%;
+  background-color: #7a7878;
+  color: #e4e4e4;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-weight: bold;
+  transition: ease .4s;
+}
+
+button:hover{
+  background-color: #e4e4e4;
+  color: #333;
+}
+
+#inputCon{
+  display: flex;
+  flex-direction: row;
+}
+
+.formCon{
+  color: #7a7878;
+  padding-right: 2rem;
+}
