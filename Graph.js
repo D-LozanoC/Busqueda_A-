@@ -2,6 +2,8 @@
 export class Graph {
     constructor() {
         this.adjacencyList = new Map(); // Mapa para nodos y aristas
+        this.nodesId;
+        this.counter = 0;
     }
 
     // Agrega un nodo
@@ -32,15 +34,57 @@ export class Graph {
     getEdges() {
         let edgesArray = [];
         for (let [node, edges] of this.adjacencyList) {
-            edges.forEach(({target, weight}) => {
-                // Añade cada enlace solo una vez (grafo no dirigido)
-                if (!edgesArray.some(edge => (edge.source === target && edge.target === node))) {
-                    edgesArray.push({ source: node, target: target, weight: weight});
-                }
-            });
+            for (let [target, weight] of edges) {
+                edgesArray.push({ source: node, target: target, weight: weight });
+            }
         }
         return edgesArray;
     }
 
+    // Función para obtener todos los caminos entre dos nodos (origen y destino)
+    getAllPaths(source, destination) {
+        let paths = [];
+        let visited = new Set();  // Conjunto de nodos visitados
+        let currentPath = [];     // Camino actual
+        // Función recursiva para DFS
+        const dfs = (node, destination) => {
+            if (!this.adjacencyList.has(node)) {
+                console.error(`El nodo ${node} no existe en el grafo.`);
+                return;
+            }
+            visited.add(node);       // Marcamos el nodo como visitado
+            currentPath.push(node);  // Añadimos el nodo al camino actual
+            // Si llegamos al nodo destino, guardamos el camino
+            if (node === destination) {
+                paths.push([...currentPath]);  // Guardamos una copia del camino actual
+            } else {
+                // Recorremos los nodos vecinos
+                for (let neighbor of this.adjacencyList.get(node)) {
+                    if (!visited.has(neighbor)) {  // Si no ha sido visitado
+                        dfs(neighbor, destination);
+                    }
+                }
+            }
+            // Retrocedemos
+            currentPath.pop();
+            visited.delete(node);
+        };
+        // Iniciamos DFS desde el nodo de origen
+        if (this.adjacencyList.has(source)) {
+            dfs(source, destination);
+        } else {
+            console.error(`El nodo ${source} no existe en el grafo.`);
+        }
+        return paths;
+    }
+
+    isFull() {
+        for (let [node, edges] of this.adjacencyList) {
+            if (edges.size === 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 
 }

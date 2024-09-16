@@ -13,6 +13,9 @@ body {
   display: flex;
   margin: 2rem;
   box-shadow: 5px 5px 5px 5px rgba(255, 255, 255, 0.5);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
 
 h1 {
@@ -25,20 +28,26 @@ h1 {
   flex:1;
   margin: 1.5rem;
   color: #e4e4e4;
+  width: fit-content;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
 }
 
 input,label{
   font-size: 1.1rem;
   padding: 0.5rem;
-  margin: 0.4rem;
-  width: 100%;
+  width: fit-content;
+  width: 95%;
 }
 
 .canva {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   align-items: center;
+  justify-content: stretch;
   flex: 2;
   height: 80vh;
   margin: 1.5rem;
@@ -46,10 +55,6 @@ input,label{
   border-radius: 1rem;
 }
 
-.node {
-  stroke: #fff;
-  stroke-width: 1.5px;
-}
 
 .link {
   fill: none;
@@ -59,7 +64,7 @@ input,label{
 
 #weight{
   height: 0.8rem;
-  width: 2rem;
+  width: 50%;
 }
 
 button{
@@ -87,5 +92,24 @@ button:hover{
 
 .formCon{
   color: #7a7878;
-  padding-right: 2rem;
+  padding: 0.5rem;
+  text-align: left;
+}
+
+button:disabled{
+  background-color: #535353;
+  color: #e4e4e4;
+  cursor: not-allowed;
+}
+
+.node {
+  stroke: #fff;
+  stroke-width: 1.5px;
+  fill: #535353;
+  transition: ease all 0.4s;
+}
+
+.node:hover{
+  fill: #999;
+  cursor: grab;
 }

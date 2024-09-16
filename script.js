@@ -1,31 +1,36 @@
 //Importación de la clase Graph
 import { Graph } from "./Graph.js";
+import { GraphVisualizer } from "./GraphVisualizer.js";
+import { TreeVisualizer } from "./TreeVisualizer.js";
 
 document.getElementById('inputNodos').addEventListener("input", function () {
     const graph = new Graph();
-
-    document.getElementById('span').innerHTML =
+    const span = document.getElementById('span');
+    span.innerHTML =
         `<h3>Conecte los nodos con sus respectivos pesos: </h3>
-    <div id="inputCon">
-        <div class="formCon">
-            <label for="nodoUno">Nodo: </label>
-            <select id="nodoUno"></select>
-            <br><br>
-            <label for="weight">Peso: </label>
-            <input id="weight" type="number" name="weight" placeholoder="number" required min="1">
-            <br><br>
-            <label for="nodoDos">Nodo: </label><select id="nodoDos"></select>
-            <br><br>
+        <div id="inputCon">
+            <div class="formCon">
+                <label for="nodoUno">Nodo: </label>
+                <select id="nodoUno"></select>
+                <br><br>
+                <label for="weight">Peso: </label>
+                <input id="weight" type="number" name="weight" placeholoder="number" min="1">
+                <br><br>
+                <label for="nodoDos">Nodo: </label><select id="nodoDos"></select>
+                <br><br>
+            </div>
+            <div class="formCon">
+                <span id="conNodos"></span>
+            </div>
         </div>
-        <div class="formCon">
-            <span id="conNodos"></span>
-        </div>
-    </div>
-    <button id="addEdgeButton">Crear arista</button><br><br>`
+        <button id="addEdgeButton" type="button">Crear arista</button><br><br>
+        <button id="saveSettings" type="button" disabled>Guardar grafo</button><br><br>`
 
     const nodos = parseInt(inputNodos.value);
+    const nodeArray = [];
     for (let i = 1; i <= nodos; i++) {
         graph.addNode(String.fromCharCode(i + 64));
+        nodeArray.push({ id: String.fromCharCode(i + 64) });
     }
 
     const options = graph.getNodes();
@@ -46,13 +51,39 @@ document.getElementById('inputNodos').addEventListener("input", function () {
         } else {
             graph.addEdge(node1, node2, weight);
             alert(`Arista ${node1} -> ${node2} creada con peso ${weight}`);
-            console.log(weight);
             document.getElementById('conNodos').innerHTML += `<p>${node1} --> ${node2} peso: ${weight}</p>`;
+            const graphVisualizer = new GraphVisualizer(graph, '#graph');
+            if (graph.isFull()) {
+                document.getElementById('saveSettings').disabled = false;
+            }
         }
     });
 
-    console.clear();
-    console.log(graph);
+    document.getElementById('saveSettings').addEventListener('click', () => {
+        document.getElementById('inputNodos').style.display = 'none';
+        document.getElementById('labelNum').style.display = 'none';
+        span.innerHTML = `<label for="nodoInicial">Nodo inicial: </label>
+                <select id="nodoInicial"></select>
+                <br><br>
+                <label for="nodoObj">Nodo Objetivo: </label><select id="nodoObj"></select>
+                <br><br><br><br>
+                <button id="viewTree" type="button">Generar Arbol</button><br><br>`;
+        fillComboBox(options, 'nodoInicial');
+        fillComboBox(options, 'nodoObj');
+        document.getElementById('viewTree').addEventListener('click', () => {
+            const nodoObj=document.getElementById('nodoObj').value;
+            const nodoIni=document.getElementById('nodoInicial').value;
+            if (nodoIni === nodoObj){
+                alert('El nodo inicial y el nodo objetivo no pueden ser el mismo');
+                return;
+            }else {
+                console.log(graph.getAllPaths(nodoIni,nodoObj));
+            }
+        });
+    });
+
+    const graphVisualizer = new GraphVisualizer(graph, 'svg');
+
 });
 
 function fillComboBox(options, id) {
