@@ -19,6 +19,7 @@ export class Graph {
         this.addNode(node2);
         this.adjacencyList.get(node1).set(node2, weight); // Añade el peso a la arista
         this.adjacencyList.get(node2).set(node1, weight); // Añade el peso a la arista (grafo no dirigido)
+
     }
 
     // Obtiene los nodos para D3
@@ -44,23 +45,24 @@ export class Graph {
     // Función para obtener todos los caminos entre dos nodos (origen y destino)
     getAllPaths(source, destination) {
         let paths = [];
-        let visited = new Set();  // Conjunto de nodos visitados
-        let currentPath = [];     // Camino actual
+        let visited = new Set(); // Conjunto de nodos visitados
+        let currentPath = []; // Camino actual
         // Función recursiva para DFS
         const dfs = (node, destination) => {
             if (!this.adjacencyList.has(node)) {
                 console.error(`El nodo ${node} no existe en el grafo.`);
                 return;
             }
-            visited.add(node);       // Marcamos el nodo como visitado
-            currentPath.push(node);  // Añadimos el nodo al camino actual
+            visited.add(node); // Marcamos el nodo como visitado
+            currentPath.push(node); // Añadimos el nodo al camino actual
             // Si llegamos al nodo destino, guardamos el camino
             if (node === destination) {
-                paths.push([...currentPath]);  // Guardamos una copia del camino actual
+                paths.push([...currentPath]); // Guardamos una copia del camino actual
             } else {
                 // Recorremos los nodos vecinos
                 for (let neighbor of this.adjacencyList.get(node)) {
-                    if (!visited.has(neighbor)) {  // Si no ha sido visitado
+                    if (!visited.has(neighbor)) {
+                        // Si no ha sido visitado
                         dfs(neighbor, destination);
                     }
                 }
@@ -78,6 +80,16 @@ export class Graph {
         return paths;
     }
 
+    // Obtener vecinos de un nodo en formato {node, cost}
+    getNeighbors(node) {
+        if (!this.adjacencyList.has(node)) return [];
+        let neighbors = [];
+        for (let [neighbor, cost] of this.adjacencyList.get(node)) {
+            neighbors.push({ node: neighbor, cost });
+        }
+        return neighbors;
+    }
+
     isFull() {
         for (let [node, edges] of this.adjacencyList) {
             if (edges.size === 0) {
@@ -86,5 +98,4 @@ export class Graph {
         }
         return true;
     }
-
 }
